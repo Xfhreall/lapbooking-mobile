@@ -1,11 +1,5 @@
-import React from "react";
+import { AddFieldForm } from "@/components/ui/addField";
 
-const Tambah = () => {
-  return (
-    <>
-      <div>Tambah</div>
-    </>
-  );
-};
-
-export default Tambah;
+export default function AddFieldPage() {
+  return <AddFieldForm />;
+}

@@ -26,7 +26,12 @@ const Navbar = () => {
             pathname === item.href ||
             (pathname === "/" && item.href === "/parkeer");
           return (
-            <li key={item.name}>
+            <li
+              key={item.name}
+              className={`${
+                item.icon === "charm:plus" ? "bg-blue text-white" : ""
+              } h-max`}
+            >
               <Link href={item.href}>
                 <div
                   className={`grid items-center justify-center gap-1 ${

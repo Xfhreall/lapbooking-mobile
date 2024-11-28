@@ -1,4 +1,4 @@
-import Navbar from "@/components/ui/navbar";
+// import Navbar from "@/components/ui/navbar";
 import React from "react";
 
 const layoutAdmin = ({
@@ -8,7 +8,7 @@ const layoutAdmin = ({
 }>) => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {children}
     </>
   );
