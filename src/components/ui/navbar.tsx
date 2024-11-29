@@ -12,9 +12,9 @@ const Navbar = () => {
     {
       name: "Kelola Lapangan",
       icon: "fluent:home-32-regular",
-      href: "/kelola",
+      href: "/lapangan/kelola",
     },
-    { name: "", icon: "charm:plus", href: "/tambah" },
+    { name: "", icon: "charm:plus", href: "/lapangan/tambah" },
     { name: "Cek Laporan", icon: "iconoir:calendar", href: "/cek" },
   ];
 

@@ -9,16 +9,16 @@ import { type Field } from "@/lib/types";
 import { FieldCard } from "@/components/ui/fieldCard";
 import { FieldTypeFilter } from "@/components/ui/fieldType";
 
-export default function FieldsPage() {
+export default function Kelola() {
   const router = useRouter();
   const [fields, setFields] = useState<Field[]>([]);
   const [selectedType, setSelectedType] = useState("Badminton");
 
   useEffect(() => {
-    const storedFields = JSON.parse(
+    const dataLapangan = JSON.parse(
       localStorage.getItem("fields") || "[]"
     ) as Field[];
-    setFields(storedFields);
+    setFields(dataLapangan);
   }, []);
 
   const filteredFields = fields.filter(
@@ -30,7 +30,7 @@ export default function FieldsPage() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this field?")) {
+    if (confirm("Anda yakin ingin menghapus lapangan ini?")) {
       const updatedFields = fields.filter((field) => field.id !== id);
       localStorage.setItem("fields", JSON.stringify(updatedFields));
       setFields(updatedFields);
