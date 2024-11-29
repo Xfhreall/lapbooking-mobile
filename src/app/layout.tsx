@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 import "./globals.css";
+import LoadingProvider from "@/components/loadingProvider";
 
 const sora = Sora({
   display: "swap",
@@ -20,7 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sora.className} antialiased`}>{children}</body>
+      <body className={`${sora.className} antialiased`}>
+        <LoadingProvider>{children}</LoadingProvider>
+      </body>
     </html>
   );
 }

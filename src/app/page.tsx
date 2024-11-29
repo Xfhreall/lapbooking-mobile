@@ -1,13 +1,14 @@
-import LoadingProvider from "@/components/loadingProvider";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <LoadingProvider>
-      <section>
-        <h1>init</h1>
-        <Link href="/dashboard">Dashboard admin</Link>
-      </section>
-    </LoadingProvider>
+    <section className="z-50 absolute">
+      <h1>init</h1>
+      <div>
+        <Link href="/dashboard" className="underline font-bold">
+          Pergi ke dashboard
+        </Link>
+      </div>
+    </section>
   );
 }
