@@ -59,6 +59,7 @@ export function AddFieldForm() {
       const updatedFields = [...existingFields, newField];
       localStorage.setItem("fields", JSON.stringify(updatedFields));
       form.reset();
+      alert("Lapangan berhasil ditambahkan");
       router.push("/lapangan/kelola");
     } catch (error) {
       console.error("Gagal menyimpan lapangan:", error);
