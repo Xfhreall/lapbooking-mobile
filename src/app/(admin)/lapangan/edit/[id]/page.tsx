@@ -36,6 +36,7 @@ export default function EditFieldPage() {
     },
   });
 
+  //simulasi get id lapangan untuk edit dari database
   useEffect(() => {
     const fields = JSON.parse(
       localStorage.getItem("fields") || "[]"
@@ -57,6 +58,7 @@ export default function EditFieldPage() {
   }, [id, form, router]);
 
   function onSubmit(values: FieldFormValues) {
+    //simulasi update data pada database
     try {
       const fields = JSON.parse(
         localStorage.getItem("fields") || "[]"
@@ -72,14 +74,14 @@ export default function EditFieldPage() {
         return field;
       });
       localStorage.setItem("fields", JSON.stringify(updatedFields));
-      router.push("/fields");
+      router.push("/lapangan/kelola");
     } catch (error) {
       console.error("Error updating field:", error);
     }
   }
 
   return (
-    <div className="container max-w-lg px-4 py-6">
+    <div className="container max-w-lg px-4 py-6 pb-32">
       <div className="mb-6 flex items-center gap-4">
         <Button
           variant="ghost"

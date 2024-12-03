@@ -12,14 +12,14 @@ interface FieldCardProps {
 
 export function FieldCard({ field, onEdit, onDelete }: FieldCardProps) {
   return (
-    <Card className="flex overflow-hidden">
+    <Card className="flex overflow-hidden items-center px-1">
       <div className="relative h-24 w-24 flex-shrink-0">
         {field.image ? (
           <Image
             src={field.image}
             alt={field.name}
             fill
-            className="object-cover"
+            className="object-cover rounded-md"
           />
         ) : (
           <div className="h-full w-full bg-muted" />

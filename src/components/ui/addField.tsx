@@ -17,6 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { fieldSchema, type FieldFormValues, type Field } from "@/lib/types";
 
 export function AddFieldForm() {
@@ -35,8 +42,10 @@ export function AddFieldForm() {
     },
   });
 
-  function onSubmit(values: FieldFormValues) {
+  async function onSubmit(values: FieldFormValues) {
     setIsSubmitting(true);
+
+    //simulasi post/menambahkan data pada database
     try {
       const existingFields = JSON.parse(
         localStorage.getItem("fields") || "[]"
@@ -50,8 +59,9 @@ export function AddFieldForm() {
       const updatedFields = [...existingFields, newField];
       localStorage.setItem("fields", JSON.stringify(updatedFields));
       form.reset();
+      router.push("/lapangan/kelola");
     } catch (error) {
-      console.error("Error saving field:", error);
+      console.error("Gagal menyimpan lapangan:", error);
     } finally {
       setIsSubmitting(false);
     }
@@ -97,9 +107,22 @@ export function AddFieldForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Jenis Lapangan</FormLabel>
-                <FormControl>
-                  <Input placeholder="Badminton" {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih jenis lapangan" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Sepak Bola">Sepak Bola</SelectItem>
+                    <SelectItem value="Badminton">Badminton</SelectItem>
+                    <SelectItem value="Voli">Voli</SelectItem>
+                    <SelectItem value="Basket">Basket</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -179,7 +202,7 @@ export function AddFieldForm() {
           />
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "Menyimpan..." : "Submit"}
+            {isSubmitting ? "Menyimpan..." : "Simpan"}
           </Button>
         </form>
       </Form>

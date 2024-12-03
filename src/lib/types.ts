@@ -5,7 +5,7 @@ export const fieldSchema = z.object({
   type: z.string().min(1, "Jenis lapangan harus diisi"),
   pricePerHour: z.string().min(1, "Harga sewa harus diisi"),
   operationalHours: z.string().min(1, "Jam operasional harus diisi"),
-  image: z.string().optional(),
+  image: z.string(),
   phoneNumber: z
     .string()
     .min(10, "Nomor telepon minimal 10 digit")

@@ -2,18 +2,20 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MapPin, User } from "lucide-react";
+import { MapPin, CalendarCog } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { type Field } from "@/lib/types";
 import { FieldCard } from "@/components/ui/fieldCard";
 import { FieldTypeFilter } from "@/components/ui/fieldType";
+import atmin from "@/assets/atmin.svg";
 
 export default function Kelola() {
   const router = useRouter();
   const [fields, setFields] = useState<Field[]>([]);
   const [selectedType, setSelectedType] = useState("Badminton");
 
+  //simulasi mengambil data lapangan dari database
   useEffect(() => {
     const dataLapangan = JSON.parse(
       localStorage.getItem("fields") || "[]"
@@ -26,10 +28,11 @@ export default function Kelola() {
   );
 
   const handleEdit = (id: string) => {
-    router.push(`/fields/edit/${id}`);
+    router.push(`/lapangan/edit/${id}`);
   };
 
   const handleDelete = (id: string) => {
+    //simulai menghapus data dari database
     if (confirm("Anda yakin ingin menghapus lapangan ini?")) {
       const updatedFields = fields.filter((field) => field.id !== id);
       localStorage.setItem("fields", JSON.stringify(updatedFields));
@@ -43,10 +46,10 @@ export default function Kelola() {
         <div className="flex items-center gap-3">
           <div className="relative h-12 w-12 overflow-hidden rounded-full">
             <Image
-              src="/placeholder.svg"
+              src={atmin}
               alt="Admin"
               fill
-              className="object-cover"
+              className="object-cover border-2 rounded-full border-blue"
             />
           </div>
           <div>
@@ -55,7 +58,10 @@ export default function Kelola() {
           </div>
         </div>
         <div className="relative h-10 w-10 overflow-hidden rounded-full">
-          <User className="h-full w-full p-2" />
+          <CalendarCog
+            className="h-full w-full p-2 text-blue"
+            onClick={() => alert("coming soon")}
+          />
         </div>
       </header>
       <div className="relative h-48 w-full">
