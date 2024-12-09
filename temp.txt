@@ -1,0 +1,33 @@
+
+//MainActivity
+FUNCTION onCreate  // 1
+    DISPLAY "Membuka halaman kelola lapangan"  
+    CALL loadAvailabilityData()  // 2
+END FUNCTION  
+
+FUNCTION loadAvailabilityData  // 2
+    DEFINE kelolaLapanganAdapter = new kelolaLapanganAdapter()  
+    CALL kelolaLapanganAdapter.getLapanganAvailability()  // 3
+END FUNCTION  
+
+// kelolaLapanganAdapter
+FUNCTION getLapanganAvailability  // 3
+    DISPLAY "Mengambil data ketersediaan lapangan dari database"   
+    CALL db.collection("data_lapangan").get()  // 4
+    EXCEPTION  
+        WHEN db.get() succeeds  // 5
+            DEFINE availableLapanganList = new List<Lapangan>()  
+            FOR document IN result  
+                PARSE document TO Lapangan  // Node 6
+                ADD lapangan TO availableLapanganList  
+            END FOR  
+            CALL displayAvailableLapangan(availableLapanganList)  // Node 7
+        WHEN db.get() fails  // Node 8
+            DISPLAY "Error: Tidak dapat mengambil data dari database"  // Node 9
+    END EXCEPTION  
+END FUNCTION  
+
+FUNCTION displayAvailableLapangan(availableLapanganList)  // Node 7
+    DISPLAY "Menampilkan data ketersediaan Lapangan ke UI"  
+END FUNCTION  
+

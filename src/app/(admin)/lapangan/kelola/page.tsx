@@ -2,26 +2,72 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { MapPin, CalendarCog } from "lucide-react";
+import {
+  MapPin,
+  CalendarCog,
+  TriangleAlertIcon,
+  ChevronLeft,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { type Field } from "@/lib/types";
 import { FieldCard } from "@/components/ui/fieldCard";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { FieldTypeFilter } from "@/components/ui/fieldType";
 import atmin from "@/assets/atmin.svg";
+import stadiun from "@/assets/lapangan.svg";
+import Link from "next/link";
+
+function useFieldsEffect() {
+  const [fields, setFields] = useState<Field[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    //1
+    const fetchFields = async () => {
+      try {
+        //1
+        let dataLapangan: Field[] = []; //2
+        // Simulate a network request
+        await new Promise((resolve) => setTimeout(resolve, 1000)); //3
+        if (typeof window !== "undefined" && window.localStorage) {
+          //4
+          const storedFields = localStorage.getItem("fields"); //5
+          if (storedFields) {
+            //6
+            dataLapangan = JSON.parse(storedFields); //7
+          }
+        }
+        setFields(dataLapangan); //8
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching fields:", err); //9
+        setError(
+          "Failed to load field data. Please check your internet connection and try again."
+        ); //10
+        setFields([]); //11
+      }
+    };
+
+    fetchFields();
+  }, []);
+
+  return { fields, error, setFields };
+}
 
 export default function Kelola() {
   const router = useRouter();
-  const [fields, setFields] = useState<Field[]>([]);
   const [selectedType, setSelectedType] = useState("Badminton");
-
-  //simulasi mengambil data lapangan dari database
-  useEffect(() => {
-    const dataLapangan = JSON.parse(
-      localStorage.getItem("fields") || "[]"
-    ) as Field[];
-    setFields(dataLapangan);
-  }, []);
+  const { fields, error, setFields } = useFieldsEffect();
+  if (error) {
+    return (
+      <Alert variant="destructive">
+        <TriangleAlertIcon className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
+  }
 
   const filteredFields = fields.filter(
     (field) => field.type.toLowerCase() === selectedType.toLowerCase()
@@ -31,12 +77,23 @@ export default function Kelola() {
     router.push(`/lapangan/edit/${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    //simulai menghapus data dari database
+  const handleDelete = async (id: string) => {
     if (confirm("Anda yakin ingin menghapus lapangan ini?")) {
-      const updatedFields = fields.filter((field) => field.id !== id);
-      localStorage.setItem("fields", JSON.stringify(updatedFields));
-      setFields(updatedFields);
+      //1
+      try {
+        // Simulate API call to delete from database
+        const response = await fetch(`/api/fields/${id}`, { method: "DELETE" }); //2
+        if (!response.ok) throw new Error("Failed to delete field"); //3
+
+        const updatedFields = fields.filter((field) => field.id !== id); //4
+        localStorage.setItem("fields", JSON.stringify(updatedFields)); //4
+        setFields(updatedFields); //5
+      } catch (error) {
+        console.error("Error deleting field:", error); //6
+        alert("Gagal menghapus lapangan. Periksa koneksi internet Anda."); //6
+      }
+    } else {
+      return;
     }
   };
 
@@ -64,18 +121,25 @@ export default function Kelola() {
           />
         </div>
       </header>
-      <div className="relative h-48 w-full">
+      <div className="relative h-64 w-full">
         <Image
-          src="/placeholder.svg"
+          src={stadiun}
           alt="Stadium"
           fill
-          className="object-cover"
+          className="object-cover brightness-90"
         />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
-          <h2 className="text-xl font-bold">Lapangan TWICE</h2>
-          <div className="flex items-center gap-1 text-sm">
-            <MapPin className="h-4 w-4" />
-            <span>Jl. Merdeka No. 12, Malang</span>
+        <div className="bg-black/20 absolute h-10 w-10 left-4 top-4 rounded-xl border flex items-center justify-center">
+          <Link href="/dashboard">
+            <ChevronLeft className="h-8 w-8 text-white" />
+          </Link>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0  text-white bg-gradient-to-t from-[#0E3755]/20 to-[#138C57]/30 mx-auto w-64 rounded-t-3xl h-16 flex justify-center items-center gap-2">
+          <div>
+            <MapPin className="h-8 w-8" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold">Lapangan TWICE</h2>
+            <h2 className="text-xs font-light">Jl. Merdeka No. 12, Malang</h2>
           </div>
         </div>
       </div>

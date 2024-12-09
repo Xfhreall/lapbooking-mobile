@@ -44,7 +44,7 @@ export default function Loading() {
           initial={{ y: 50, opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut", delay: 2.9 }}
         >
-          Solusi anda dalam olahraga
+          Solusi mudah dalam berolahraga
         </motion.div>
       </motion.div>
       <div

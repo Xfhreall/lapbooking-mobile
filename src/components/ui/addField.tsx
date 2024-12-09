@@ -42,29 +42,30 @@ export function AddFieldForm() {
     },
   });
 
+  //method tambah lapangan
   async function onSubmit(values: FieldFormValues) {
-    setIsSubmitting(true);
+    setIsSubmitting(true); //1
 
     //simulasi post/menambahkan data pada database
     try {
       const existingFields = JSON.parse(
         localStorage.getItem("fields") || "[]"
-      ) as Field[];
+      ) as Field[]; //2
 
       const newField: Field = {
         ...values,
         id: crypto.randomUUID(),
         createdAt: new Date().toISOString(),
-      };
-      const updatedFields = [...existingFields, newField];
-      localStorage.setItem("fields", JSON.stringify(updatedFields));
+      }; //3
+      const updatedFields = [...existingFields, newField]; //4
+      localStorage.setItem("fields", JSON.stringify(updatedFields)); //5
       form.reset();
-      alert("Lapangan berhasil ditambahkan");
-      router.push("/lapangan/kelola");
+      alert("Lapangan berhasil ditambahkan"); //6
+      router.push("/lapangan/kelola"); // 7
     } catch (error) {
-      console.error("Gagal menyimpan lapangan:", error);
+      console.error("Gagal menyimpan lapangan:", error); // 8
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // 9
     }
   }
 
@@ -79,7 +80,7 @@ export function AddFieldForm() {
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
-        <h1 className="text-xl font-semibold">Tambah Lapangan</h1>
+        <h1 className="text-xl font-semibold ml-10">Tambah Lapangan</h1>
       </div>
 
       <p className="mb-6 text-sm text-muted-foreground">

@@ -57,12 +57,13 @@ export default function EditFieldPage() {
     }
   }, [id, form, router]);
 
+  //method edit lapangan
   function onSubmit(values: FieldFormValues) {
     //simulasi update data pada database
     try {
       const fields = JSON.parse(
         localStorage.getItem("fields") || "[]"
-      ) as Field[];
+      ) as Field[]; //1
       const updatedFields = fields.map((field) => {
         if (field.id === id) {
           return {
@@ -70,13 +71,14 @@ export default function EditFieldPage() {
             ...values,
             updatedAt: new Date().toISOString(),
           };
-        }
-        return field;
+        } //2
+        return field; //3
       });
-      localStorage.setItem("fields", JSON.stringify(updatedFields));
-      router.push("/lapangan/kelola");
+      localStorage.setItem("fields", JSON.stringify(updatedFields)); //4
     } catch (error) {
-      console.error("Error updating field:", error);
+      console.error("Error updating field:", error); //5
+    } finally {
+      router.push("/lapangan/kelola"); //6
     }
   }
 
@@ -91,7 +93,7 @@ export default function EditFieldPage() {
         >
           <ArrowLeft className="h-6 w-6" />
         </Button>
-        <h1 className="text-xl font-semibold">Edit Lapangan</h1>
+        <h1 className="text-xl font-semibold ml-12">Edit Lapangan</h1>
       </div>
 
       <p className="mb-6 text-sm text-muted-foreground">
